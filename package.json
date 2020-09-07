@@ -1,0 +1,22 @@
+{
+  "name": "four-top",
+  "version": "1.0.0",
+  "description": "Four-top 3D Printer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyunduk-jo/four-top.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hyunduk-jo/four-top/issues"
+  },
+  "homepage": "https://github.com/hyunduk-jo/four-top#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
