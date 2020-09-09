@@ -4,7 +4,7 @@
   "description": "Four-top 3D Printer",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node init.js"
+    "start": "nodemon --exec babel-node init.js --delay 2"
   },
   "repository": {
     "type": "git",
