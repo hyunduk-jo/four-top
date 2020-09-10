@@ -12,7 +12,6 @@ const CHANGE_PASSWORD = "/change-password";
 const USER_DETAIL = "/:id";
 
 //Videos
-const VIDEOS_HOME = "/videos"
 const VIDEOS = "/videos";
 const UPLOAD = "/upload";
 const VIDEO_DETAIL = "/:id";
