@@ -1,7 +1,9 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose";    //npm install mongoose
+import dotenv from "dotenv";    //npm install dotenv
+dotenv.config();
 
 mongoose.connect(
-    "mongodb://localhost:27017/four-top",
+    process.env.MONGO_URL,
     {
         useNewUrlParser: true,
         useFindAndModify: false,

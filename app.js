@@ -10,13 +10,13 @@ import routes from "./routes";
 import { localMiddleware } from "./middlewares";
 const app = express();
 
-app.use(helmet({ contentSecurityPolicy: false }));
+app.use(helmet({ contentSecurityPolicy: false }));  //npm install helmet
 //app.use(helmet());
-app.set("view engine", "pug");
-app.use(cookieParser());
-app.use(bodyParser.json());
+app.set("view engine", "pug");//npm install pug
+app.use(cookieParser());    //npm install cookie-parser
+app.use(bodyParser.json()); //npm install body-parser
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(morgan("dev"));
+app.use(morgan("dev"));     //npm install morgan
 app.use(localMiddleware);
 
 

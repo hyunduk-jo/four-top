@@ -1,8 +1,15 @@
 //import { videosDB } from "../../db";
 import routes from "../../routes"
+import Video from "../../models/Video";
 
-export const home = (req, res) => {
-    res.render("home", { pageTitle: "Home", videosDB });
+export const home = async (req, res) => {//async는 특정 부분을 기다려줌
+    try {
+        const videosDB = await Video.find({});//끝나기 전 까지 아랫 줄 실행X
+        res.render("home", { pageTitle: "Home", videosDB });//윗 줄 끝나야 실행O
+    } catch (error) {
+        console.log(error)
+        res.render("home", { pageTitle: "Home", videosDB: [] });
+    }
 }
 export const search = (req, res) => {
     const { query: { term: searchingBy } } = req;
@@ -12,12 +19,18 @@ export const getUpload = (req, res) => {
     res.render("upload", { pageTitle: "Upload" });
 }
 
-export const postUpload = (req, res) => {
+export const postUpload = async (req, res) => {
     const {
-        body: { file, title, description }
+        body: { title, description },
+        file: { path }
     } = req;
-    // To Do: Upload and save video
-    res.redirect(routes.videoDetail(11111))
+    const newVideo = await Video.create({
+        fileUrl: path,
+        title,
+        description
+    });
+    console.log(newVideo)
+    res.redirect(routes.videoDetail(newVideo.id))
 }
 
 
