@@ -13,6 +13,7 @@ const app = express();
 app.use(helmet({ contentSecurityPolicy: false }));  //npm install helmet
 //app.use(helmet());
 app.set("view engine", "pug");//npm install pug
+app.use("/uploads", express.static("uploads"));
 app.use(cookieParser());    //npm install cookie-parser
 app.use(bodyParser.json()); //npm install body-parser
 app.use(bodyParser.urlencoded({ extended: true }));
