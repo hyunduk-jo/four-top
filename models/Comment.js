@@ -6,14 +6,14 @@
 import mongoose from "mongoose";
 
 const CommentSchema = new mongoose.Schema({
-    text: {
-        type: String,
-        required: "Text is required" // required, default 등 option이 필요한 경우 {}사용
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }/*
+  text: {
+    type: String,
+    required: "Text is required" // required, default 등 option이 필요한 경우 {}사용
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }/*
     ,
     video:{
         type: mongoose.Schema.Types.ObjectId,
