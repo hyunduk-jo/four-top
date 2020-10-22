@@ -70,6 +70,33 @@ export const postGithubLogIn = (req, res) => {
   res.redirect(routes.home);
 }
 
+export const kakaoLogin = passport.authenticate("kakao");
+
+export const kakaoLoginCallback = async (_, __, proFile, cb) => {
+  const { _json: { id, kakao_account: { email, profile: { nickname } } } } = proFile;
+  try {
+    const user = await User.findOne({ email });
+    if (user) {
+      user.kakaoId = id;
+      user.save();
+      return cb(null, user);
+    } else {
+      const newUser = await User.create({
+        email,
+        name: nickname,
+        kakaoId: id,
+      });
+      return cb(null, newUser);
+    }
+  } catch (error) {
+    return cb(error);
+  }
+
+}
+
+export const postKakaoLogIn = (req, res) => {
+  res.redirect(routes.home);
+}
 
 export const logout = (req, res) => {
   req.logout();
@@ -77,7 +104,7 @@ export const logout = (req, res) => {
 }
 
 export const getMe = (req, res) => {
-  res.render("userDetail", { pageTitle: "User Detail", user: req.user });
+  res.render("userDetail", { pageTitle: "User Detail", user: req.user }); //req.user는 현재 로그인된 사용자
 }
 
 export const userDetail = async (req, res) => {
@@ -85,7 +112,8 @@ export const userDetail = async (req, res) => {
     params: { id }
   } = req;
   try {
-    const user = await User.findById(id);
+    const user = await User.findById(id).populate("videos");
+    console.log(user);
     res.render("userDetail", { pageTitle: "User Detail", user });
   } catch (error) {
     res.redirect(routes.home);
@@ -93,5 +121,44 @@ export const userDetail = async (req, res) => {
 }
 
 export const users = (req, res) => res.render("users", { pageTitle: "Users" });
-export const editProfile = (req, res) => res.render("editProfile", { pageTitle: "Edit Profile" });
-export const changePassword = (req, res) => res.render("changePassword", { pageTitle: "Change Password" });
+
+export const getEditProfile = (req, res) => {
+  res.render("editProfile", { pageTitle: "Edit Profile" });
+}
+
+export const postEditProfile = async (req, res) => {
+  const {
+    body: { name, email },
+    file
+  } = req;
+  try {
+    await User.findByIdAndUpdate(req.user.id, {
+      name,
+      email,
+      avatarUrl: file ? file.path : req.user.avatarUrl
+    });
+    res.redirect(routes.me);
+  } catch (error) {
+    res.rendirect(routes.editProfile);
+  }
+}
+
+export const getChangePassword = (req, res) => res.render("changePassword", { pageTitle: "Change Password" });
+
+export const postChangePassword = async (req, res) => {
+  const {
+    body: { oldPassword, newPassword, newPassword1 }
+  } = req;
+  try {
+    if (newPassword !== newPassword1) {
+      res.status(400);
+      res.redirect(`${routes.users}${routes.changePassword}`);
+      return;
+    }
+    await req.user.changePassword(oldPassword, newPassword);
+    res.redirect(routes.me);
+  } catch (error) {
+    res.status(400);
+    res.redirect(`${routes.users}${routes.changePassword}`);
+  }
+}

@@ -21,7 +21,11 @@ const VideoSchema = new mongoose.Schema({
   comments: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Comment"
-  }]/* 배열로 만든 이유 -> video는 여러 comment를 갖기때문*/
+  }],/* 배열로 만든 이유 -> video는 여러 comment를 갖기때문*/
+  creator: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  }
 });
 
 const model = mongoose.model("Video", VideoSchema);
