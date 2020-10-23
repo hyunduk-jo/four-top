@@ -4,9 +4,13 @@
   "description": "Four-top 3D Printer",
   "main": "index.js",
   "scripts": {
-    "dev:server": "nodemon --exec babel-node init.js --delay 2",
-    "dev:assets": "cross-env WEBPACK_ENV=development webpack -w",
-    "build:assets": "cross-env WEBPACK_ENV=production webpack"
+    "dev:server": "nodemon --exec babel-node src/init.js --delay 2",
+    "dev:assets": "cd src && cross-env WEBPACK_ENV=development webpack -w",
+    "build:assets": "cd src && cross-env WEBPACK_ENV=production webpack",
+    "build:server": "babel src --out-dir build ",
+    "build": "npm run build:server && npm run build:assets && cp -R src/static build && cp -R src/views build",
+    "prebuild": "rm -rf build",
+    "start": "node build/init.js"
   },
   "repository": {
     "type": "git",
@@ -19,11 +23,13 @@
   },
   "homepage": "https://github.com/hyunduk-jo/four-top#readme",
   "dependencies": {
+    "@babel/cli": "^7.12.1",
     "@babel/core": "^7.11.6",
     "@babel/node": "^7.10.5",
     "@babel/polyfill": "^7.11.5",
     "@babel/preset-env": "^7.11.5",
     "autoprefixer": "^9.3.1",
+    "axios": "^0.20.0",
     "babel-loader": "^8.1.0",
     "body-parser": "^1.19.0",
     "connect-mongo": "^3.2.0",
@@ -34,6 +40,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "get-blob-duration": "^1.1.2",
     "helmet": "^4.1.0",
     "mongoose": "^5.10.4",
     "morgan": "^1.10.0",
